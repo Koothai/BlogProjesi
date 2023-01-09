@@ -26,6 +26,8 @@ namespace BlogProjesi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // session eklendi (56. satirda aktif)
+            services.AddSession();
             services.AddDbContext<DataBaseContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("conString"));
@@ -51,7 +53,8 @@ namespace BlogProjesi
             app.UseRouting();
 
             app.UseAuthorization();
-
+            //sessionu aktif ediyoruz. (29. satirda ekledik)
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

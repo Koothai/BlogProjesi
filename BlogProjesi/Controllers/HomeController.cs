@@ -1,4 +1,5 @@
-﻿using BlogProjesi.Models;
+﻿using BlogProjesi.Filters;
+using BlogProjesi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlogProjesi.Controllers
 {
+   // [LoggedUser]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
