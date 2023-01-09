@@ -1,6 +1,7 @@
 ﻿using BlogProjesi.Models.Data;
 using BlogProjesi.Models.Entity;
 using BlogProjesi.ViewModels.Auth.Login;
+using BlogProjesi.ViewModels.Auth.Register;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -44,6 +45,25 @@ namespace BlogProjesi.Controllers
             HttpContext.Session.Remove("username");
             return RedirectToAction("Login");
 
+        }
+        public IActionResult Register() => View();
+
+        [HttpPost]
+        public IActionResult Register(RegisterViewModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!_context.Users.Any(x => x.Username.ToLower().Equals(user.Username.ToLower())))
+                {
+                    User newUser = new User(user.Username, user.Password);
+                    _context.Users.Add(newUser);
+                    _context.SaveChanges();
+                    TempData["message"] = "Successfull registery";
+                    return RedirectToAction("Login");
+                }
+                else ModelState.AddModelError("", "User already exists");
+            }
+            return View();
         }
     }
 }

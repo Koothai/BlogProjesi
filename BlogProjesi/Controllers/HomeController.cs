@@ -25,6 +25,7 @@ namespace BlogProjesi.Controllers
             return View();
         }
 
+        [LoggedUser]
         public IActionResult Privacy()
         {
             return View();
