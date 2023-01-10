@@ -1,0 +1,8 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>@Context.Session.GetString("username")</h1>
+

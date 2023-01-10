@@ -1,0 +1,31 @@
+﻿@using BlogProjesi
+@using BlogProjesi.ViewModels
+@using BlogProjesi.ViewModels.Auth.Articles
+@using Microsoft.AspNetCore.Http
+@model ArticlesViewModel
+@{
+    ViewData["Title"] = "Articles";
+}
+<link href="~/css/site.css" rel="stylesheet" />
+<h1>Articles</h1>
+@if (TempData["message"] != null)
+{
+                <div class="text-success"> @TempData["message"] </div>
+}
+
+<form asp-action="Create" asp-controller="Auth">
+
+    @if (Context.Session.GetString("username") != null)
+    {
+        <div>
+
+          <input asp-for="Title" class="text-danger" placeholder="Title"/>
+          
+          <textarea asp-for="Content" placeholder="Content" class="form-control">  </textarea>
+
+          <input type="submit" value="Add New Article" class="btn-primary"/>
+
+        </div>   
+   }
+
+</form>

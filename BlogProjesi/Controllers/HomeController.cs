@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlogProjesi.Controllers
 {
-   // [LoggedUser]
+    // [LoggedUser]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -30,6 +30,19 @@ namespace BlogProjesi.Controllers
         {
             return View();
         }
+
+        [LoggedUser]
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        [LoggedUser]
+        public IActionResult Articles()
+        {
+            return View(); // return View(_context.Articles.ToList()); olr belki
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

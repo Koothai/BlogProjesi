@@ -1,5 +1,7 @@
-﻿using BlogProjesi.Models.Data;
+﻿using BlogProjesi.Filters;
+using BlogProjesi.Models.Data;
 using BlogProjesi.Models.Entity;
+using BlogProjesi.ViewModels.Auth.Articles;
 using BlogProjesi.ViewModels.Auth.Login;
 using BlogProjesi.ViewModels.Auth.Register;
 using Microsoft.AspNetCore.Http;
@@ -15,12 +17,14 @@ namespace BlogProjesi.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public IActionResult Login(string rPATH)
         {
             ViewBag.rPATH = rPATH;
             return View();
         }
+
         [HttpPost]
         public IActionResult Login(LoginViewModel model, string rPATH)
         {
@@ -49,7 +53,7 @@ namespace BlogProjesi.Controllers
         public IActionResult Register() => View();
 
         [HttpPost]
-        public IActionResult Register(RegisterViewModel user)
+        public IActionResult Register(RegisterViewModel user, string rPATH)
         {
             if (ModelState.IsValid)
             {
@@ -65,5 +69,29 @@ namespace BlogProjesi.Controllers
             }
             return View();
         }
+
+        [HttpPost]
+        [LoggedUser]
+        public IActionResult Create(ArticlesViewModel model, User user)
+        {
+            if (ModelState.IsValid)
+            {
+                Article article = new Article();
+                article.Title = model.Title;
+                article.Content = model.Content;
+                ViewBag.User.Id = article.AuthorId;
+                HttpContext.Session.GetString("userId").Equals(user.Id)    
+                _context.Articles.Add(article);
+                _context.SaveChanges();
+                return RedirectToAction("Articles");
+               
+            }
+            else
+            {
+                ModelState.AddModelError("", "Boş bırakma.");
+            }
+            return View();
+        }
+
     }
 }
